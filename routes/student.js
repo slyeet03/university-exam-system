@@ -45,6 +45,7 @@ router.get("/dashboard", async (req, res) => {
 router.get("/subjects", async (req, res) => {
   try {
     const studentId = req.session.user.id;
+    const name = req.session.user.name;
 
     const [subjects] = await db.query(
       "SELECT subjects.*, users.name as 'faculty' FROM subjects JOIN registrations JOIN users ON subjects.id=registrations.subject_id AND subjects.faculty_id=users.id WHERE registrations.student_id = ? and users.id = subjects.faculty_id",
@@ -52,6 +53,7 @@ router.get("/subjects", async (req, res) => {
     );
 
     res.render("student/subjects", {
+      name: name,
       subjects: subjects,
     });
   } catch (err) {
@@ -64,6 +66,7 @@ router.get("/subjects", async (req, res) => {
 router.get("/exams", async (req, res) => {
   try {
     const studentId = req.session.user.id;
+    const name = req.session.user.name;
 
     const [exams] = await db.query(
       "SELECT exams.*, subjects.name AS 'subject_name' FROM exams JOIN subjects JOIN registrations ON exams.subject_id = subjects.id AND subjects.id=registrations.subject_id WHERE registrations.student_id = ? AND exams.exam_date >= CURDATE()",
@@ -71,6 +74,7 @@ router.get("/exams", async (req, res) => {
     );
 
     res.render("student/exams", {
+      name: name,
       exams: exams,
     });
   } catch (err) {
@@ -83,6 +87,7 @@ router.get("/exams", async (req, res) => {
 router.get("/results", async (req, res) => {
   try {
     const studentId = req.session.user.id;
+    const name = req.session.user.name;
 
     const [results] = await db.query(
       "SELECT results.marks, results.grade, exams.exam_type, exams.exam_date, subjects.name AS subject_name FROM results JOIN exams ON results.exam_id = exams.id JOIN subjects ON exams.subject_id = subjects.id WHERE results.student_id = ?",
@@ -90,6 +95,7 @@ router.get("/results", async (req, res) => {
     );
 
     res.render("student/results", {
+      name: name,
       results: results,
     });
   } catch (err) {

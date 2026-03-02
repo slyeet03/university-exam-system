@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="/style.css">
 </head>
   <body>
-    <div class="welcome-card">
+    <%- include('../partials/sidebar') %>
+    <div class="main-content">
+      <div class="welcome-card">
       <h1>Welcome, <%= name %></h1>
     </div>
     <div class="statistic-card">
@@ -48,5 +50,7 @@
           <% }) %>
         </table>
       </div>
-  </body>
+
+    </div>
+      </body>
 </html>

@@ -1,15 +1,18 @@
-/* --- High-End Academic Paper Theme --- */
+/* --- FULL DASHBOARD SYSTEM: NO-OVERLAP VERSION --- */
+
 :root {
-  --bg-paper: #f6f4f0; /* Warm grey-yellowish paper */
+  --bg-paper: #f6f4f0;
   --card-white: #ffffff;
-  --text-dark: #121212; /* Sharp black for readability */
+  --text-dark: #121212;
   --text-soft: #66645f;
-  --accent-green: #a3e635; /* The "Splash" of vibrant color */
+  --accent-green: #a3e635;
   --accent-green-dark: #84cc16;
   --border-subtle: #e5e3de;
   --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  --sidebar-width: 280px; /* Fixed width for consistency */
 }
 
+/* --- Global Resets --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,133 +26,146 @@
 body {
   background-color: var(--bg-paper);
   color: var(--text-dark);
-  padding: 3rem; /* Extra breathing room around the whole page */
   line-height: 1.6;
+  display: flex; /* THIS IS KEY: Forces sidebar and content to stay separate */
+  min-height: 100vh;
 }
 
-/* --- Login Page Special Layout --- */
-.login-page {
+/* --- Sidebar: Stays in its own lane --- */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(
+    --sidebar-width
+  ); /* Prevents overlapping content from pushing in */
+  height: 100vh;
+  position: sticky; /* Stays fixed while scrolling content */
+  top: 0;
+  background-color: var(--card-white);
+  padding: 3rem 2rem;
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 3rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 0;
+  gap: 10px;
+  text-transform: uppercase;
 }
 
-.login-card {
-  background: var(--card-white);
-  padding: 3.5rem; /* Large internal padding */
-  width: 100%;
-  max-width: 480px;
-  border-radius: 32px;
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
-}
-
-.accent-dot {
-  width: 12px;
-  height: 12px;
+.logo::before {
+  content: "";
+  width: 10px;
+  height: 10px;
   background-color: var(--accent-green);
   border-radius: 50%;
-  margin-bottom: 1.5rem;
 }
 
-.login-card h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.login-card p {
-  color: var(--text-soft);
+.student-info {
   margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* --- Form Elements --- */
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
-}
-
-input {
-  width: 100%;
-  padding: 16px;
-  background-color: #faf9f6;
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+.student-info h2 {
   font-size: 1rem;
-  transition: all 0.2s;
+  margin-bottom: 4px;
 }
 
-input:focus {
-  outline: none;
-  border-color: var(--accent-green);
-  background-color: white;
+.student-info p {
+  font-size: 0.85rem;
+  color: var(--text-soft);
 }
 
-.btn-main {
-  width: 100%;
-  padding: 18px;
+.nav-links {
+  list-style: none;
+}
+
+.nav-links li {
+  margin: 8px 0;
+}
+
+.nav-links a {
+  color: var(--text-soft);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  display: block;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.nav-links a:hover {
+  background-color: #faf9f6;
+  color: var(--text-dark);
+}
+
+.nav-links a.active {
   background-color: var(--text-dark);
   color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: transform 0.1s;
 }
 
-.btn-main:hover {
-  background-color: #222;
+/* --- Main Content Area --- */
+.main-content {
+  flex-grow: 1; /* Fills the rest of the screen */
+  padding: 3rem 4rem;
+  overflow-x: hidden; /* Prevents horizontal scroll bugs */
 }
 
-/* --- Dashboard Enhancements --- */
 .welcome-card h1 {
   font-size: 2.5rem;
   margin-bottom: 2rem;
 }
 
+/* --- Dashboard Grid Items --- */
 .statistic-card {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem; /* Wide gap between cards */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
   margin-bottom: 3.5rem;
 }
 
 .statistic-card > div {
   background: var(--card-white);
-  padding: 2.5rem; /* Increased padding inside stat cards */
+  padding: 2.5rem;
   border-radius: 24px;
   border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
   font-weight: 700;
   font-size: 1.2rem;
-  box-shadow: var(--shadow-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Splash of color only on the numbers/icons */
 .statistic-card > div::after {
   content: "→";
-  float: right;
   color: var(--accent-green);
 }
 
-/* --- Table Spacing Fix --- */
+/* --- Filter & Tables --- */
+form {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+}
+
 .tables {
   display: grid;
-  grid-template-columns: 1.5fr 1fr; /* Asymmetric layout looks more premium */
+  grid-template-columns: 1.5fr 1fr; /* Asymmetric layout */
   gap: 3rem;
 }
 
 .exams-table,
-.results-table,
-.subject-table {
+.results-table {
   background: var(--card-white);
   padding: 2.5rem;
   border-radius: 28px;
@@ -160,7 +176,6 @@ input:focus {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 2rem;
 }
 
 th {
@@ -169,12 +184,11 @@ th {
   color: var(--text-soft);
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 td {
-  padding: 1.5rem 1rem; /* Much more vertical padding in rows */
+  padding: 1.5rem 1rem;
   font-size: 0.95rem;
   border-bottom: 1px solid #f9f9f9;
 }
