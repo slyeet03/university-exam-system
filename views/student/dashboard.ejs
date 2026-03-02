@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <div class="welcome-card">
+      <h1>Welcome, <%= name %></h1>
+    </div>
+    <div class="statistic-card">
+      <div class="subject">Subjects: <%= subjects.length %></div>
+      <div class="exams">Exams: <%= exams.length %></div>
+      <div class="results">Results: <%= results.length %></div>
+    </div>
+    <div class="tables">
+      <div class="exams-table">
+        Upcoming Exams
+        <table>
+         <tr>
+            <th>Subject</th>
+            <th>Exam</th>
+            <th>Date</th>
+          </tr>
+          <% exams.forEach(function(exam) { %>
+            <tr>
+            <td><%= exam.subject_name %></td>
+            <td><%= exam.exam_type %></td>
+            <td><%= exam.exam_date %></td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
+      <div class="results-table">
+        Recent results
+        <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Grade</th>
+        </tr>
+          <% results.forEach(function(result) { %>
+            <tr>
+            <td><%= result.subject_name %></td>
+            <td><%= result.marks %></td>
+            <td><%= result.grade %></td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
+  </body>
+</html>

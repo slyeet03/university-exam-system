@@ -8,38 +8,41 @@ router.get("/", (req, res) => {
 });
 
 //handle login
-router.post("/login", (req, res) => {
-  const { email, password } = req.body;
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+    const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
-  db.query(sql, [email, password], (err, results) => {
-    if (err) throw err;
+    const [results] = await db.query(sql, [email, password]);
 
     if (results.length > 0) {
       const user = results[0];
 
-      //store session
+      // store session
       req.session.user = {
         id: user.id,
         name: user.name,
         role: user.role,
       };
 
-      //redirect based on role
-      if (user.role == "admin") {
+      // redirect based on role
+      if (user.role === "admin") {
         return res.send("admin dashboard");
       }
-      if (user.role == "faculty") {
+      if (user.role === "faculty") {
         return res.send("faculty dashboard");
       }
-      if (user.role == "student") {
+      if (user.role === "student") {
         return res.send("student dashboard");
       }
     } else {
-      res.send("Invalid credentials");
+      return res.send("Invalid credentials");
     }
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 });
 
 //logout
