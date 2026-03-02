@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Exams</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <div class="title">
+      <h1>My Exams</h1>
+    </div>
+    <div class="exam-table">
+      <table>
+        <tr>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Type</th>
+        </tr>
+        <% exams.forEach(function(exam){ %>
+        <tr>
+        <td><%= exam.subject_name %></td>
+        <td><%= exam.exam_date %></td>
+        <td><%= exam.exam_type %></td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+  </body>
+</html>

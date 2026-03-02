@@ -7,14 +7,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.3000"],
+    origin: ["http://localhost:3000", "http://127.0.0.1.3000"],
   }),
 );
 
 //middleware --> loads first
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); //use css
-
 app.set("view engine", "ejs");
 
 //session setup

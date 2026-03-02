@@ -4,6 +4,9 @@ const db = require("../db");
 
 //show login page
 router.get("/", (req, res) => {
+  if (req.session.user && req.session.user.role === "student") {
+    return res.redirect("/student/dashboard");
+  }
   res.render("login");
 });
 
@@ -34,7 +37,7 @@ router.post("/login", async (req, res) => {
         return res.send("faculty dashboard");
       }
       if (user.role === "student") {
-        return res.send("student dashboard");
+        return res.redirect("/student/dashboard");
       }
     } else {
       return res.send("Invalid credentials");

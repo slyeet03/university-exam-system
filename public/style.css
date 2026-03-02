@@ -1,0 +1,185 @@
+/* --- High-End Academic Paper Theme --- */
+:root {
+  --bg-paper: #f6f4f0; /* Warm grey-yellowish paper */
+  --card-white: #ffffff;
+  --text-dark: #121212; /* Sharp black for readability */
+  --text-soft: #66645f;
+  --accent-green: #a3e635; /* The "Splash" of vibrant color */
+  --accent-green-dark: #84cc16;
+  --border-subtle: #e5e3de;
+  --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    "Inter",
+    -apple-system,
+    sans-serif;
+}
+
+body {
+  background-color: var(--bg-paper);
+  color: var(--text-dark);
+  padding: 3rem; /* Extra breathing room around the whole page */
+  line-height: 1.6;
+}
+
+/* --- Login Page Special Layout --- */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.login-card {
+  background: var(--card-white);
+  padding: 3.5rem; /* Large internal padding */
+  width: 100%;
+  max-width: 480px;
+  border-radius: 32px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+.accent-dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.login-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-card p {
+  color: var(--text-soft);
+  margin-bottom: 2.5rem;
+}
+
+/* --- Form Elements --- */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  background-color: #faf9f6;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  background-color: white;
+}
+
+.btn-main {
+  width: 100%;
+  padding: 18px;
+  background-color: var(--text-dark);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.1s;
+}
+
+.btn-main:hover {
+  background-color: #222;
+}
+
+/* --- Dashboard Enhancements --- */
+.welcome-card h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.statistic-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; /* Wide gap between cards */
+  margin-bottom: 3.5rem;
+}
+
+.statistic-card > div {
+  background: var(--card-white);
+  padding: 2.5rem; /* Increased padding inside stat cards */
+  border-radius: 24px;
+  border: 1px solid var(--border-subtle);
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Splash of color only on the numbers/icons */
+.statistic-card > div::after {
+  content: "→";
+  float: right;
+  color: var(--accent-green);
+}
+
+/* --- Table Spacing Fix --- */
+.tables {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* Asymmetric layout looks more premium */
+  gap: 3rem;
+}
+
+.exams-table,
+.results-table,
+.subject-table {
+  background: var(--card-white);
+  padding: 2.5rem;
+  border-radius: 28px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+th {
+  text-align: left;
+  padding: 1rem;
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+td {
+  padding: 1.5rem 1rem; /* Much more vertical padding in rows */
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+tr:hover td {
+  background-color: #faf9f6;
+  color: var(--accent-green-dark);
+}

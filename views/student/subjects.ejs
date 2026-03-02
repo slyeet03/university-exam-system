@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Subjects</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <div class="title">
+      <h1>My Subjects</h1>
+    </div>
+    <div class="subject-table">
+      <table>
+        <tr>
+        <th>Subject</th>
+        <th>Code</th>
+        <th>Faculty</th>
+        <th>Credits</th>
+        </tr>
+        <% subjects.forEach(function(subject){ %>
+        <tr>
+        <td><%= subject.name %></td>
+        <td><%= subject.code %></td>
+        <td><%= subject.faculty %></td>
+        <td><%= subject.credits %></td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+  </body>
+</html>

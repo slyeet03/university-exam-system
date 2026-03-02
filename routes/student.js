@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/", (req, res) => {
-  res.render("studentDashboard");
+  res.redirect("/student/dashboard");
 });
 
 //dashboard
@@ -25,7 +25,7 @@ router.get("/dashboard", async (req, res) => {
       "SELECT exams.*, subjects.name AS 'subject_name' FROM exams JOIN subjects ON exams.subject_id = subjects.id",
     );
     const [results] = await db.query(
-      "SELECT results.*, subjects.name AS 'subject_name' FROM results JOIN subjects on results.subject_id = subjects.id WHERE student_id = ?",
+      "SELECT results.marks, results.grade, exams.exam_type, exams.exam_date, subjects.name AS subject_name FROM results JOIN exams ON results.exam_id = exams.id JOIN subjects ON exams.subject_id = subjects.id WHERE results.student_id = ?",
       [studentId],
     );
 
@@ -41,18 +41,61 @@ router.get("/dashboard", async (req, res) => {
   }
 });
 
-/* OTHER ROUTES AND THEIR FEATURES
-  SUBJECTS SECTION
-    - VIEW ALL REGISTERED SUBJECTS
-    - SEE SUBJECT NAME CODE FACULTY NAME CREDITS
-  EXAM SECTION
-    - VIEW UPCOMING EXAMS
-    - SEE SUBJECT DATE TYPE
-    - FILTER BY SUBJECT
-  RESULTS SECTION
-    - SEE SUBJECT MARKS GRADE EXAM TYPE GPA
-  PROFILE SECTION
-    - NAME EMAIL ROLL COURSE SEMESTER 
-*/
+//subjects
+router.get("/subjects", async (req, res) => {
+  try {
+    const studentId = req.session.user.id;
+
+    const [subjects] = await db.query(
+      "SELECT subjects.*, users.name as 'faculty' FROM subjects JOIN registrations JOIN users ON subjects.id=registrations.subject_id AND subjects.faculty_id=users.id WHERE registrations.student_id = ? and users.id = subjects.faculty_id",
+      [studentId],
+    );
+
+    res.render("student/subjects", {
+      subjects: subjects,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+//exams
+router.get("/exams", async (req, res) => {
+  try {
+    const studentId = req.session.user.id;
+
+    const [exams] = await db.query(
+      "SELECT exams.*, subjects.name AS 'subject_name' FROM exams JOIN subjects JOIN registrations ON exams.subject_id = subjects.id AND subjects.id=registrations.subject_id WHERE registrations.student_id = ? AND exams.exam_date >= CURDATE()",
+      [studentId],
+    );
+
+    res.render("student/exams", {
+      exams: exams,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+//results
+router.get("/results", async (req, res) => {
+  try {
+    const studentId = req.session.user.id;
+
+    const [results] = await db.query(
+      "SELECT results.marks, results.grade, exams.exam_type, exams.exam_date, subjects.name AS subject_name FROM results JOIN exams ON results.exam_id = exams.id JOIN subjects ON exams.subject_id = subjects.id WHERE results.student_id = ?",
+      [studentId],
+    );
+
+    res.render("student/results", {
+      results: results,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
 
 module.exports = router;
