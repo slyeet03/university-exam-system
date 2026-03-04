@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Student Subjects</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/faculty_sidebar') %>
+    <div class="main-content">
+          <div class="title">
+<% subjects.forEach(function(subject){ %>
+        <h1>Students in <%= subject.name %></h1>
+        <% }) %>
+    </div>
+    <div class="student-subject-table">
+      <table>
+        <tr>
+        <th>Name</th>
+        <th>Registration</th>
+        <th>Email</th>
+        </tr>
+        <% students.forEach(function(student){ %>
+        <tr>
+        <td><%= student.name %></td>
+        <td><%= student.registration_no %></td>
+        <td><%= student.email %></td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+
+    </div>
+  </body>
+</html>

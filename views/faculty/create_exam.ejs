@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Create Exams</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/faculty_sidebar') %>
+    <div class="main-content">
+          <div class="title">
+      <h1>Create Exams</h1>
+    </div>
+    <div class="create-exam-menu">
+     <form action="/faculty/exams/create/submit" method="POST" class="create-exam-menu">
+  <div class="menu-subject">
+    <label>Subject:</label>
+    <% subjects.forEach(subject => { %><br>
+      <label>
+        <input type="checkbox" name="selectedSubjects" value="<%= subject.id %>">
+        <%= subject.name %>
+      </label>
+    <% }) %>
+  </div>
+
+  <div class="menu-date">
+            <br>
+    <label for="exam-date">Date:</label>
+    <input type="date" name="examDate" id="exam-date">
+  </div>
+
+  <div class="menu-type">
+            <br>
+    <label><input type="radio" name="examType" value="Midterm"> Midterm</label>
+    <label><input type="radio" name="examType" value="Endterm"> Endterm</label>
+    <label><input type="radio" name="examType" value="Practical"> Practical</label>
+  </div>
+
+  <button type="submit">Create Exam</button>
+</form>
+
+      </div>
+  <script src="/script.js"></script>
+  </body>
+</html>

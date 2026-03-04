@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Exams</title>
+    <title>Faculty Exams</title>
     <link rel="stylesheet" href="/style.css">
 </head>
   <body>
-    <%- include('../partials/student_sidebar') %>
+    <%- include('../partials/faculty_sidebar') %>
     <div class="main-content">
-      <div class="title">
-      <h1>My Exams</h1>
+          <div class="title">
+      <h1>Manage Exams</h1>
     </div>
+      <button type="button" class="create-exam">Create Exam</button>
     <div class="exam-table">
       <table>
         <tr>
         <th>Subject</th>
         <th>Date</th>
         <th>Type</th>
+        <th>Actions</th>
         </tr>
         <% exams.forEach(function(exam){ %>
         <tr>
         <td><%= exam.subject_name %></td>
         <td><%= exam.exam_date %></td>
         <td><%= exam.exam_type %></td>
+            <td><form action="/faculty/exams/<%= exam.id %>/delete" method="POST">
+              <button type="submit">Delete</button>
+        </form></td>
         </tr>
         <% }) %>
       </table>
     </div>
-
     </div>
-      </body>
+  <script src="/script.js"></script>
+  </body>
 </html>

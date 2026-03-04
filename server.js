@@ -28,8 +28,10 @@ app.use(
 //routes
 const authRoutes = require("./routes/auth");
 app.use("/", authRoutes);
-const studentRoutes = require("./routes/student.js");
+const studentRoutes = require("./routes/student");
 app.use("/student", studentRoutes);
+const facultyRoutes = require("./routes/faculty");
+app.use("/faculty", facultyRoutes);
 
 //start server
 app.listen(3000, () => {

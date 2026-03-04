@@ -31,10 +31,10 @@ router.post("/login", async (req, res) => {
 
       // redirect based on role
       if (user.role === "admin") {
-        return res.send("admin dashboard");
+        return res.redirect("/admin/dashboard");
       }
       if (user.role === "faculty") {
-        return res.send("faculty dashboard");
+        return res.redirect("/faculty/dashboard");
       }
       if (user.role === "student") {
         return res.redirect("/student/dashboard");

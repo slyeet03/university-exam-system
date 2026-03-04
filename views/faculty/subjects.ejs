@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Subjects</title>
+    <title>Faculty Subjects</title>
     <link rel="stylesheet" href="/style.css">
 </head>
   <body>
-    <%- include('../partials/student_sidebar') %>
+    <%- include('../partials/faculty_sidebar') %>
     <div class="main-content">
           <div class="title">
       <h1>My Subjects</h1>
@@ -15,20 +15,23 @@
         <tr>
         <th>Subject</th>
         <th>Code</th>
-        <th>Faculty</th>
+        <th>Semester</th>
         <th>Credits</th>
+        <th>Actions</th>
         </tr>
         <% subjects.forEach(function(subject){ %>
         <tr>
         <td><%= subject.name %></td>
         <td><%= subject.code %></td>
-        <td><%= subject.faculty %></td>
+        <td><%= subject.semester %></td>
         <td><%= subject.credits %></td>
+            <td><button type="button" class="view-students" data-id="<%= subject.id %>">View Students</button></td>
         </tr>
         <% }) %>
       </table>
     </div>
 
     </div>
+  <script src="/script.js"></script>
   </body>
 </html>
