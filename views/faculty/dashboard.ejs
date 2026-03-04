@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Faculty Dashboard</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
   <body>
     <%- include('../partials/faculty_sidebar') %>
     <div class="main-content">
       <div class="welcome-card">
-      <h1>Welcome, <%= name %></h1>
-    </div>
-    <div class="statistic-card">
-      <div class="subject">Subjects: <%= subjects.length %></div>
-      <div class="exams">Upcoming Exams: <%= exams.length %></div>
-    </div>
+        <h1>Welcome, <%= name %></h1>
+      </div>
+      <div class="statistic-card">
+        <div class="subject">Subjects: <%= subjects.length %></div>
+        <div class="exams">Upcoming Exams: <%= exams.length %></div>
+      </div>
       <div class="quick-actions">
         <button type="button" class="create-exam">Create Exam</button>
         <button type="button" id="enter-marks">Enter Marks</button>
       </div>
-
     </div>
     <script src="/script.js"></script>
-      </body>
+  </body>
 </html>

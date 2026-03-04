@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Results</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/faculty_sidebar') %>
+    <div class="main-content">
+          <div class="title">
+        <h1>Choose a subject</h1>
+    </div>
+    <div class="subject-result-table">
+      <table>
+        <tr>
+        <th>Subject</th>
+        <th>Code</th>
+        <th>Semester</th>
+        <th>Action</th>
+        <th>Type</th>
+        </tr>
+        <% subjects.forEach(function(subject){ %>
+        <tr>
+        <td><%= subject.name %></td>
+        <td><%= subject.code %></td>
+        <td><%= subject.semester %></td>
+        <td><%= subject.exam_type %></td>
+            <td><button type="submit" class="subject-choose-result" data-id="<%= subject.exam_id %>">Choose</button></td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+    </div>
+  <script src="/script.js"></script>
+  </body>
+</html>

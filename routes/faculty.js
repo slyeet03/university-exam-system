@@ -167,6 +167,72 @@ router.post("/exams/create/submit", async (req, res) => {
   }
 });
 
-router.get("/results/:examId", async (req, res) => {});
+router.get("/results", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+    const facultyId = req.session.user.id;
+    const [subjects] = await db.query(
+      "SELECT subjects.name, subjects.code, subjects.semester, exams.id AS 'exam_id' ,exams.exam_type FROM subjects JOIN exams ON subjects.id=exams.subject_id WHERE subjects.faculty_id=?",
+      [facultyId],
+    );
+
+    res.render("faculty/results", {
+      name: name,
+      subjects: subjects,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+router.get("/results/:examId", async (req, res) => {
+  try {
+    const examId = Number(req.params.examId);
+    const name = req.session.user.name;
+
+    const [subjects] = await db.query(
+      "SELECT subjects.name, exams.exam_type, exams.id AS 'exam_id' FROM subjects JOIN exams ON subjects.id=exams.subject_id WHERE exams.id=?",
+      [examId],
+    );
+
+    const [users] = await db.query(
+      "SELECT users.id, users.name, users.registration_no, results.marks, results.grade FROM users JOIN results ON users.id=results.student_id WHERE results.exam_id=?",
+      [examId],
+    );
+    res.render("faculty/enter_marks", {
+      name: name,
+      subjects: subjects,
+      users: users,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+router.post("/results/:examId/save-all", async (req, res) => {
+  try {
+    const examId = Number(req.params.examId);
+    const { studentIds, marks } = req.body;
+
+    for (let i = 0; i < studentIds.length; i++) {
+      const currStudentId = studentIds[i];
+      const currMark = marks[i];
+
+      if (currMark !== "") {
+        await db.query(
+          "UPDATE results SET marks = ? WHERE exam_id = ? AND student_id= ?",
+          [Number(currMark), examId, Number(currStudentId)],
+        );
+      }
+    }
+
+    res.redirect(`/faculty/results/${examId}?success=true`);
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
 
 module.exports = router;

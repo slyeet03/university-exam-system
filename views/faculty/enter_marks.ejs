@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Faculty Marks</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <%- include('../partials/faculty_sidebar') %>
+    <div class="main-content">
+      <div class="title">
+        <h1>Enter Marks - <%= subjects[0].name %> (<%= subjects[0].exam_type
+          %>)</h1>
+      </div>
+
+      <div class="marks-table">
+        <form action="/faculty/results/<%= subjects[0].exam_id %>/save-all"
+          method="POST">
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Registration</th>
+              <th>Marks</th>
+            </tr>
+            <% users.forEach(function(user){ %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.registration_no %></td>
+              <td>
+                <input type="hidden" name="studentIds"
+                  value="<%= user.id %>">
+                <input type="number" name="marks" value="<%= user.marks %>"
+                  min="0" max="100">
+              </td>
+            </tr>
+            <% }) %>
+          </table>
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn">Save All Marks</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="/script.js"></script>
+  </body>
+</html>
