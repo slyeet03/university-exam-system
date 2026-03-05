@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Students</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/admin_sidebar') %>
+    <div class="main-content">
+          <div class="title">
+      <h1>Manage Students</h1>
+    </div>
+      <button type="button" class="add-student">Add Student</button>
+    <div class="add-student-table">
+      <table>
+        <tr>
+        <th>Name</th>
+        <th>Registration</th>
+        <th>Course</th>
+        <th>Semester</th>
+        <th>Actions</th>
+        </tr>
+        <% students.forEach(function(student){ %>
+        <tr>
+        <td><%= student.name %></td>
+        <td><%= student.registration_no %></td>
+        <td><%= student.course %></td>
+        <td><%= student.semester %></td>
+            <td><form action="/admin/<%= student.id %>/edit" method="POST">
+              <button type="submit">Edit</button>
+        </form></td>
+        <td><form action="/admin/<%= student.id %>/delete" method="POST">
+              <button type="submit">Delete</button>
+        </form></td>
+        </tr>
+        <% }) %>
+      </table>
+    </div>
+    </div>
+  <script src="/script.js"></script>
+  </body>
+</html>

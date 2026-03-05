@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/admin_sidebar') %>
+    <div class="main-content">
+      <div class="welcome-card">
+      <h1>Admin Dashboard</h1>
+    </div>
+    <div class="statistic-card">
+      <div class="student">Students: <%= students.length %></div>
+      <div class="faculty">Faculty: <%= faculty.length %></div>
+      <div class="subject">Subjects: <%= subjects.length %></div>
+      <div class="exams">Exams: <%= exams.length %></div>
+      <div class="results">Results: <%= results.length %></div>
+    </div>
+      </body>
+</html>
