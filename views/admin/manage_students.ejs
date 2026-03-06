@@ -24,8 +24,8 @@
         <tr>
         <td><%= student.name %></td>
         <td><%= student.registration_no %></td>
-        <td><%= student.course %></td>
-        <td><%= student.semester %></td>
+        <td><%= student.course || 'Not Assigned' %></td>
+        <td><%= student.semester || 'N/A' %></td>
             <td><form action="/admin/<%= student.id %>/edit" method="POST">
               <button type="submit">Edit</button>
         </form></td>
