@@ -26,9 +26,7 @@
         <td><%= student.registration_no %></td>
         <td><%= student.course || 'Not Assigned' %></td>
         <td><%= student.semester || 'N/A' %></td>
-            <td><form action="/admin/<%= student.id %>/edit" method="POST">
-              <button type="submit">Edit</button>
-        </form></td>
+        <td><button class="edit-student" data-id="<%= student.id %>">Edit</button></td>
         <td><form action="/admin/<%= student.id %>/delete" method="POST">
               <button type="submit">Delete</button>
         </form></td>
