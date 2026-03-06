@@ -32,6 +32,8 @@ const studentRoutes = require("./routes/student");
 app.use("/student", studentRoutes);
 const facultyRoutes = require("./routes/faculty");
 app.use("/faculty", facultyRoutes);
+const adminRoutes = require("./routes/admin.js");
+app.use("/admin", adminRoutes);
 
 //start server
 app.listen(3000, () => {

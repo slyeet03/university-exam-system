@@ -17,3 +17,16 @@ document.querySelectorAll(".subject-choose-result").forEach((button) => {
     window.location.href = `/faculty/results/${examId}`;
   });
 });
+
+document.querySelectorAll(".add-student").forEach((button) => {
+  button.addEventListener("click", function () {
+    window.location.href = `/admin/student/create`;
+  });
+});
+
+document.querySelectorAll(".edit-student").forEach((button) => {
+  button.addEventListener("click", function () {
+    const studentId = this.getAttribute("data-id");
+    window.location.href = `/admin/${studentId}/edit`;
+  });
+});
