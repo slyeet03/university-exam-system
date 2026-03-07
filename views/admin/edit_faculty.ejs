@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Faculty</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+  <body>
+    <%- include('../partials/admin_sidebar') %>
+    <div class="main-content">
+          <div class="title">
+      <h1>Edit Faculty</h1>
+    </div>
+      <div class="create-user-container">
+        <% faculties.forEach(function(faculty) { %> 
+<form action="/admin/faculty/<%= faculty.id %>/edit" method="POST" class="create-user-form">
+  <div class="form-group">
+    <label>Name:</label>
+    <input type="text" name="name" value="<%= faculty.name %>">
+  </div>
+
+  <div class="form-group">
+    <label>Email:</label>
+    <input type="email" name="email" value="<%= faculty.email %>">
+  </div>
+
+  <div class="form-group">
+    <label>Assign Subjects:</label>
+    <div class="subject-checkbox-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+      <% subjects.forEach(function(subject) { %>
+        <div>
+          <input type="checkbox" name="subjectIds" value="<%= subject.id %>" 
+            <%= subject.is_assigned ? 'checked' : '' %>>
+          <%= subject.name %> (<%= subject.department %>)
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit">Update Faculty & Subjects</button>
+  </div>
+</form>
+        <% }); %>
+</div>
+    </div>
+  <script src="/script.js"></script>
+  </body>
+</html>

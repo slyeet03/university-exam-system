@@ -30,3 +30,16 @@ document.querySelectorAll(".edit-student").forEach((button) => {
     window.location.href = `/admin/${studentId}/edit`;
   });
 });
+
+document.querySelectorAll(".add-faculty").forEach((button) => {
+  button.addEventListener("click", function () {
+    window.location.href = `/admin/faculty/create`;
+  });
+});
+
+document.querySelectorAll(".edit-faculty").forEach((button) => {
+  button.addEventListener("click", function () {
+    const facultyId = this.getAttribute("data-id");
+    window.location.href = `/admin/${facultyId}/edit-faculty`;
+  });
+});

@@ -185,6 +185,161 @@ router.post("/student/:student_id/edit", async (req, res) => {
   }
 });
 
+router.get("/manage/faculty", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    const [faculty] = await db.query(
+      "SELECT users.id, users.name, users.email, subjects.department, subjects.name AS 'subjects' FROM users LEFT JOIN subjects ON users.id = subjects.faculty_id WHERE users.role = 'faculty' ORDER BY users.name ASC",
+    );
+
+    const [subjects] = await db.query("SELECT subjects.* FROM subjects");
+
+    res.render("admin/manage_faculty", {
+      name: name,
+      facultyList: faculty,
+      subjects: subjects,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+router.get("/faculty/create", async (req, res) => {
+  const adminName = req.session.user.name;
+
+  const [subjects] = await db.query("SELECT subjects.* FROM subjects");
+
+  res.render("admin/add_faculty", {
+    name: adminName,
+    subjects: subjects,
+  });
+});
+
+router.post("/faculty/create", async (req, res) => {
+  try {
+    const { name, email, password, department, subjectName } = req.body;
+    const deptUpper = department.toUpperCase().trim();
+    const subjTrim = subjectName.trim();
+
+    const [facultyResult] = await db.query(
+      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'faculty')",
+      [name, email, password],
+    );
+    const facultyId = facultyResult.insertId;
+
+    const [existingSubj] = await db.query(
+      "SELECT id FROM subjects WHERE name = ? AND department = ?",
+      [subjTrim, deptUpper],
+    );
+
+    let targetSubjectId;
+
+    if (existingSubj.length > 0) {
+      targetSubjectId = existingSubj[0].id;
+    } else {
+      const generatedCode =
+        deptUpper.substring(0, 3) + Math.floor(100 + Math.random() * 900);
+
+      const [newSubj] = await db.query(
+        "INSERT INTO subjects (name, department, semester, credits, code) VALUES (?, ?, 1, 4, ?)",
+        [subjTrim, deptUpper, generatedCode],
+      );
+      targetSubjectId = newSubj.insertId;
+    }
+
+    await db.query("UPDATE subjects SET faculty_id = ? WHERE id = ?", [
+      facultyId,
+      targetSubjectId,
+    ]);
+
+    res.redirect("/admin/manage/faculty");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error creating faculty/subject assignment.");
+  }
+});
+
+router.post("/faculty/:faculty_id/delete", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+    const facultyId = req.params.faculty_id;
+
+    await db.query("DELETE FROM subjects WHERE faculty_id = ?", [facultyId]);
+
+    await db.query("DELETE FROM users WHERE id = ? AND role = 'faculty'", [
+      facultyId,
+    ]);
+
+    res.redirect("/admin/manage/faculty");
+  } catch (err) {
+    console.error(err);
+    res.send("Error in deleting records");
+  }
+});
+
+router.get("/:faculty_id/edit-faculty", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+    const facultyId = req.params.faculty_id;
+
+    const [faculty] = await db.query(
+      "SELECT id, name, email FROM users WHERE id = ?",
+      [facultyId],
+    );
+
+    const [allSubjects] = await db.query(
+      `
+      SELECT id, name, department, 
+      IF(faculty_id = ?, 1, 0) AS is_assigned 
+      FROM subjects`,
+      [facultyId],
+    );
+
+    res.render("admin/edit_faculty", {
+      name: name,
+      faculties: faculty,
+      subjects: allSubjects,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Database error");
+  }
+});
+
+router.post("/faculty/:faculty_id/edit", async (req, res) => {
+  try {
+    const facultyId = req.params.faculty_id;
+    const { name, email, subjectIds } = req.body;
+
+    await db.query("UPDATE users SET name = ?, email = ? WHERE id = ?", [
+      name,
+      email,
+      facultyId,
+    ]);
+
+    await db.query(
+      "UPDATE subjects SET faculty_id = NULL WHERE faculty_id = ?",
+      [facultyId],
+    );
+
+    if (subjectIds && subjectIds.length > 0) {
+      const idsToUpdate = Array.isArray(subjectIds) ? subjectIds : [subjectIds];
+
+      await db.query("UPDATE subjects SET faculty_id = ? WHERE id IN (?)", [
+        facultyId,
+        idsToUpdate,
+      ]);
+    }
+
+    res.redirect("/admin/manage/faculty");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error updating faculty assignments.");
+  }
+});
+
 router.get("/exams/overview", async (req, res) => {
   try {
     const name = req.session.user.name;
