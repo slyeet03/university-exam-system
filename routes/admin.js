@@ -185,4 +185,40 @@ router.post("/student/:student_id/edit", async (req, res) => {
   }
 });
 
+router.get("/exams/overview", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    const [exams] = await db.query(
+      "SELECT subjects.name, exams.exam_type, DATE_FORMAT(exams.exam_date, '%d %b') AS 'exam_date', users.name AS 'faculty', COUNT(registrations.student_id) AS 'studentCount' FROM exams JOIN subjects ON exams.subject_id = subjects.id JOIN users ON subjects.faculty_id = users.id LEFT JOIN registrations ON subjects.id = registrations.subject_id GROUP BY exams.id, subjects.name, exams.exam_type, exams.exam_date, users.name ORDER BY exams.exam_date ASC",
+    );
+
+    res.render("admin/exams_overview", {
+      name: name,
+      exams: exams,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+router.get("/results/overview", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    const [results] = await db.query(
+      "SELECT users.name AS 'students', subjects.name AS 'subject_name', exams.exam_type, results.marks, results.grade FROM users JOIN registrations ON users.id = registrations.student_id JOIN subjects ON registrations.subject_id = subjects.id LEFT JOIN exams ON subjects.id = exams.subject_id LEFT JOIN results ON (exams.id = results.exam_id AND users.id = results.student_id) ORDER BY users.name ASC;",
+    );
+
+    res.render("admin/results_overview", {
+      name: name,
+      results: results,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
 module.exports = router;
