@@ -368,7 +368,6 @@ router.get("/manage/subjects", async (req, res) => {
 
 //add student
 //edit subjects
-//delete subjects
 router.post("/subjects/:subjectId/delete", async (req, res) => {
   try {
     const subjectId = req.params.subjectId;
