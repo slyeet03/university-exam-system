@@ -304,7 +304,7 @@ router.get("/:faculty_id/edit-faculty", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Database error");
+    res.send("Database error");
   }
 });
 
@@ -336,7 +336,58 @@ router.post("/faculty/:faculty_id/edit", async (req, res) => {
     res.redirect("/admin/manage/faculty");
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error updating faculty assignments.");
+    res.send("Error updating faculty assignments.");
+  }
+});
+
+router.get("/manage/subjects", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    const query = `
+            SELECT 
+                subjects.id,
+                subjects.code,
+                subjects.name,
+                subjects.credits,
+                users.name AS faculty_name
+            FROM subjects
+            LEFT JOIN users ON subjects.faculty_id = users.id
+            ORDER BY subjects.code ASC
+        `;
+    const [subjects] = await db.query(query);
+    res.render("admin/manage_subjects", {
+      name: name,
+      subjects: subjects,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+
+//add student
+//edit subjects
+//delete subjects
+router.post("/subjects/:subjectId/delete", async (req, res) => {
+  try {
+    const subjectId = req.params.subjectId;
+
+    await db.query("DELETE FROM registrations WHERE subject_id = ?",[subjectId]);
+    const [examIds] = await db.query("SELECT exam_id FROM exams WHERE subject_id = ?",[subjectId]);
+    
+    examIds.forEach(examId => {
+      await db.query("DELETE FROM results WHERE exam_id = ?",[examId]);
+    });
+
+    await db.query("DELETE FROM exams WHERE subject_id = ?", [subjectId]);
+
+    await db.query("DELETE FROM subjects WHERE id = ?",[subjectId]);
+
+    res.redirect("/admin/manage/subjects");
+  } catch (err) {
+    console.error(err);
+    res.send("Error in deleting the record");
   }
 });
 
