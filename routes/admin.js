@@ -512,7 +512,7 @@ router.get("/assign-faculty", async (req, res) => {
       "SELECT users.id, users.name FROM users WHERE role='faculty'",
     );
     const [assignments] = await db.query(
-      "SELECT users.name AS 'faculty_name', subjects.name AS 'subject_name' FROM users LEFT JOIN subjects ON users.id = subjects.faculty_id WHERE users.role = 'faculty'",
+      "SELECT users.id AS 'faculty_id', subjects.id AS 'subject_id', users.name AS 'faculty_name', subjects.name AS 'subject_name' FROM users LEFT JOIN subjects ON users.id = subjects.faculty_id WHERE users.role = 'faculty'",
     );
 
     res.render("admin/assign_faculty", {
