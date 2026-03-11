@@ -501,4 +501,30 @@ router.get("/results/overview", async (req, res) => {
   }
 });
 
+router.get("/assign-faculty", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    const [subjects] = await db.query(
+      "SELECT subjects.id, subjects.name FROM subjects",
+    );
+    const [faculty] = await db.query(
+      "SELECT users.id, users.name FROM users WHERE role='faculty'",
+    );
+    const [assignments] = await db.query(
+      "SELECT users.name AS 'faculty_name', subjects.name AS 'subject_name' FROM users LEFT JOIN subjects ON users.id = subjects.faculty_id WHERE users.role = 'faculty'",
+    );
+
+    res.render("admin/assign_faculty", {
+      name: name,
+      subjects: subjects,
+      faculty: faculty,
+      assignments: assignments,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+
 module.exports = router;

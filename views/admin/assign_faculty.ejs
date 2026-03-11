@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Faculty</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <%- include('../partials/admin_sidebar') %>
+<div class="main-content">
+
+    <h1>Assign Faculty</h1>
+
+    <form action="/admin/faculty/assign" method="POST">
+
+        <div class="form-group">
+            <label>Select Subject:</label>
+            <select name="subject_id">
+                <% subjects.forEach(function(subject){ %>
+                    <option value="<%= subject.id %>">
+                        <%= subject.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Select Faculty:</label>
+            <select name="faculty_id">
+                <% faculty.forEach(function(f){ %>
+                    <option value="<%= f.id %>">
+                        <%= f.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
+        <button type="submit">Assign</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Current Assignments</h2>
+
+    <table>
+
+        <tr>
+            <th>Subject</th>
+            <th>Faculty</th>
+            <th>Actions</th>
+        </tr>
+
+        <% assignments.forEach(function(a){ %>
+
+        <tr>
+            <td><%= a.subject_name %></td>
+            <td><%= a.faculty_name %></td>
+
+            <td>
+
+                <form action="/admin/assign/change/<%= a.subject_id %>" method="POST">
+                    <button type="submit">Change</button>
+                </form>
+
+                <form action="/admin/assign/remove/<%= a.subject_id %>" method="POST">
+                    <button type="submit">Remove</button>
+                </form>
+
+            </td>
+
+        </tr>
+
+        <% }) %>
+
+    </table>
+
+</div>
+
+</body>
+</html>
