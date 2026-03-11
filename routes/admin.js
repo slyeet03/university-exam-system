@@ -366,22 +366,97 @@ router.get("/manage/subjects", async (req, res) => {
   }
 });
 
-//add student
-//edit subjects
+router.get("/subjects/add", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+
+    res.render("admin/add_subject", {
+      name: name,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+
+router.post("/subject/create", async (req, res) => {
+  try {
+    const { name, semester, department, credits, code } = req.body;
+
+    await db.query(
+      "INSERT INTO subjects (name, semester, department, credits, code) VALUES (?, ?, ?, ?, ?)",
+      [name, semester, department, credits, code],
+    );
+
+    res.redirect("/admin/manage/subjects");
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+
+router.get("/subjects/edit/:subjectId", async (req, res) => {
+  try {
+    const name = req.session.user.name;
+    const subjectId = req.params.subjectId;
+
+    const [subjects] = await db.query(
+      "SELECT subjects.* FROM subjects WHERE subjects.id = ?",
+      [subjectId],
+    );
+    const [faculties] = await db.query(
+      "SELECT users.id, users.name FROM users WHERE role = 'faculty'",
+    );
+
+    res.render("admin/edit_subjects", {
+      name: name,
+      subjects: subjects,
+      faculties: faculties,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Database error");
+  }
+});
+
+router.post("/subjects/:subjectId/edit", async (req, res) => {
+  try {
+    const subjectId = req.params.subjectId;
+    const { name, code, semester, department, credits, faculty_id } = req.body;
+
+    await db.query(
+      "UPDATE subjects SET name = ?, code = ?, semester = ?, department = ?, credits = ?, faculty_id = ? WHERE id = ?",
+      [name, code, semester, department, credits, faculty_id, subjectId],
+    );
+
+    res.redirect("/admin/manage/subjects");
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+
 router.post("/subjects/:subjectId/delete", async (req, res) => {
   try {
     const subjectId = req.params.subjectId;
 
-    await db.query("DELETE FROM registrations WHERE subject_id = ?",[subjectId]);
-    const [examIds] = await db.query("SELECT exam_id FROM exams WHERE subject_id = ?",[subjectId]);
-    
-    examIds.forEach(examId => {
-      await db.query("DELETE FROM results WHERE exam_id = ?",[examId]);
-    });
+    await db.query("DELETE FROM registrations WHERE subject_id = ?", [
+      subjectId,
+    ]);
+    const [examIds] = await db.query(
+      "SELECT id FROM exams WHERE subject_id = ?",
+      [subjectId],
+    );
+
+    async function deleteExams(examIds) {
+      for (const examId of examIds) {
+        await db.query("DELETE FROM results WHERE exam_id = ?", [examId]);
+      }
+    }
 
     await db.query("DELETE FROM exams WHERE subject_id = ?", [subjectId]);
 
-    await db.query("DELETE FROM subjects WHERE id = ?",[subjectId]);
+    await db.query("DELETE FROM subjects WHERE id = ?", [subjectId]);
 
     res.redirect("/admin/manage/subjects");
   } catch (err) {

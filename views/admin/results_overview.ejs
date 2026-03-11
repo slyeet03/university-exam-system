@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Results Overview</title>
     <link rel="stylesheet" href="/style.css">
-</head>
+  </head>
   <body>
     <%- include('../partials/admin_sidebar') %>
     <div class="main-content">
       <div class="title">
-      <h1>Results Overview</h1>
-    </div>
-        <div class="result-table">
-      <table>
-        <tr>
+        <h1>Results Overview</h1>
+      </div>
+      <div class="result-table">
+        <table>
+          <tr>
             <th>Student</th>
-        <th>Subject</th>
-        <th>Exam</th>
-        <th>Marks</th>
-        <th>Grade</th>
-        </tr>
-        <% results.forEach(function(result){ %>
-        <tr>
+            <th>Subject</th>
+            <th>Exam</th>
+            <th>Marks</th>
+            <th>Grade</th>
+          </tr>
+          <% results.forEach(function(result){ %>
+          <tr>
             <td><%= result.students %></td>
-        <td><%= result.subject_name %></td>
-        <td><%= result.exam_type %></td>
-        <td><%= result.marks %></td>
-        <td><%= result.grade %></td>
-        </tr>
-        <% }) %>
-      </table>
-    </div>
+            <td><%= result.subject_name %></td>
+            <td><%= result.exam_type %></td>
+            <td><%= result.marks %></td>
+            <td><%= result.grade %></td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
 
     </div>
-      </body>
+  </body>
 </html>

@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Add Faculty</title>
     <link rel="stylesheet" href="/style.css">
-</head>
+  </head>
   <body>
     <%- include('../partials/admin_sidebar') %>
     <div class="main-content">
-          <div class="title">
-      <h1>Add Faculty</h1>
-    </div>
+      <div class="title">
+        <h1>Add Faculty</h1>
+      </div>
       <div class="create-user-container">
-  <form action="/admin/faculty/create" method="POST" class="create-user-form">
-    
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+        <form action="/admin/faculty/create" method="POST"
+          class="create-user-form">
+
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department:</label>
+            <input list="dept-list" name="department" id="department"
+              placeholder="Select or Type Dept" required>
+            <datalist id="dept-list">
+              <%
+              // Filter unique departments from your existing subjects array
+              const depts = [...new Set(subjects.map(s => s.department))];
+              depts.forEach(function(dept) {
+              %>
+              <option value="<%= dept %>"></option>
+              <% }) %>
+            </datalist>
+          </div>
+
+          <div class="form-group">
+            <label for="subjectName">Subject Name:</label>
+            <input list="subj-list" name="subjectName" id="subjectName"
+              placeholder="Select or Type Subject" required>
+            <datalist id="subj-list">
+              <% subjects.forEach(function(subj) { %>
+              <option value="<%= subj.name %>"><%= subj.department %></option>
+              <% }) %>
+            </datalist>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">[ Create ]</button>
+          </div>
+
+        </form>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-    </div>
-
-    <div class="form-group">
-    <label for="department">Department:</label>
-    <input list="dept-list" name="department" id="department" placeholder="Select or Type Dept" required>
-    <datalist id="dept-list">
-        <% 
-           // Filter unique departments from your existing subjects array
-           const depts = [...new Set(subjects.map(s => s.department))];
-           depts.forEach(function(dept) { 
-        %>
-            <option value="<%= dept %>"></option>
-        <% }) %>
-    </datalist>
-</div>
-
-<div class="form-group">
-    <label for="subjectName">Subject Name:</label>
-    <input list="subj-list" name="subjectName" id="subjectName" placeholder="Select or Type Subject" required>
-    <datalist id="subj-list">
-        <% subjects.forEach(function(subj) { %>
-            <option value="<%= subj.name %>"><%= subj.department %></option>
-        <% }) %>
-    </datalist>
-</div>
-
-    <div class="form-actions">
-      <button type="submit">[ Create ]</button>
-    </div>
-
-  </form>
-</div>
-    </div>
-  <script src="/script.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>
