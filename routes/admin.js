@@ -527,4 +527,23 @@ router.get("/assign-faculty", async (req, res) => {
   }
 });
 
+//assign faculty
+router.post("/faculty/assign", async (req, res) => {
+  try {
+    const { subject_id, faculty_id } = req.body;
+
+    await db.query("UPDATE subjects SET faculty_id = ? WHERE id = ?", [
+      faculty_id,
+      subject_id,
+    ]);
+
+    res.redirect("/admin/assign-faculty");
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
+//change faculty
+//remove faculty
+
 module.exports = router;
