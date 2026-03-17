@@ -1,176 +1,402 @@
-/* --- FULL DASHBOARD SYSTEM: NO-OVERLAP VERSION --- */
+/* ============================================================
+   UNIVERSITY PORTAL — COMPLETE STYLESHEET
+   Clean academic aesthetic with warm paper tones
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap");
 
 :root {
   --bg-paper: #f6f4f0;
+  --bg-paper-dark: #efece7;
   --card-white: #ffffff;
   --text-dark: #121212;
   --text-soft: #66645f;
+  --text-muted: #9e9b95;
   --accent-green: #a3e635;
   --accent-green-dark: #84cc16;
+  --accent-green-faint: #f0fce8;
   --border-subtle: #e5e3de;
-  --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  --sidebar-width: 280px; /* Fixed width for consistency */
+  --border-medium: #d4d1cb;
+  --shadow-soft: 0 4px 16px -4px rgba(0, 0, 0, 0.07);
+  --shadow-card: 0 10px 32px -8px rgba(0, 0, 0, 0.09);
+  --shadow-hover: 0 16px 40px -10px rgba(0, 0, 0, 0.13);
+  --sidebar-width: 260px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
 }
 
-/* --- Global Resets --- */
-* {
+/* ============================================================
+   GLOBAL RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family:
-    "Inter",
-    -apple-system,
-    sans-serif;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
+  font-family:
+    "DM Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   background-color: var(--bg-paper);
   color: var(--text-dark);
   line-height: 1.6;
-  display: flex; /* THIS IS KEY: Forces sidebar and content to stay separate */
+  display: flex;
   min-height: 100vh;
 }
 
-/* --- Sidebar: Stays in its own lane --- */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
 .sidebar {
   width: var(--sidebar-width);
-  min-width: var(
-    --sidebar-width
-  ); /* Prevents overlapping content from pushing in */
+  min-width: var(--sidebar-width);
   height: 100vh;
-  position: sticky; /* Stays fixed while scrolling content */
+  position: sticky;
   top: 0;
   background-color: var(--card-white);
-  padding: 3rem 2rem;
+  padding: 2.5rem 1.75rem;
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   z-index: 100;
+  overflow-y: auto;
 }
 
 .logo {
-  font-weight: 800;
-  font-size: 1.2rem;
-  letter-spacing: -0.5px;
-  margin-bottom: 3rem;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  margin-bottom: 2.5rem;
   display: flex;
   align-items: center;
   gap: 10px;
-  text-transform: uppercase;
 }
 
 .logo::before {
   content: "";
-  width: 10px;
-  height: 10px;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
   background-color: var(--accent-green);
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.student-info {
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--border-subtle);
+/* Sidebar user info blocks */
+.student-info,
+.faculty-info,
+.admin-info {
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-paper);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
 }
 
-.student-info h2 {
-  font-size: 1rem;
-  margin-bottom: 4px;
+.student-info h2,
+.faculty-info h2,
+.admin-info h2 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 
-.student-info p {
-  font-size: 0.85rem;
+.student-info p,
+.faculty-info p,
+.admin-info p {
+  font-size: 0.82rem;
   color: var(--text-soft);
 }
 
 .nav-links {
   list-style: none;
+  flex: 1;
 }
 
 .nav-links li {
-  margin: 8px 0;
+  margin: 2px 0;
 }
 
 .nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: var(--text-soft);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 12px 16px;
-  display: block;
-  border-radius: 12px;
-  transition: 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .nav-links a:hover {
-  background-color: #faf9f6;
+  background-color: var(--bg-paper);
   color: var(--text-dark);
 }
 
 .nav-links a.active {
   background-color: var(--text-dark);
-  color: white;
+  color: #ffffff;
+  font-weight: 600;
 }
 
-/* --- Main Content Area --- */
+/* Logout link styled differently */
+.nav-links li:last-child a {
+  color: var(--text-muted);
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.25rem;
+  border-radius: 0;
+}
+
+.nav-links li:last-child a:hover {
+  color: #c0392b;
+  background: transparent;
+}
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
+
 .main-content {
-  flex-grow: 1; /* Fills the rest of the screen */
-  padding: 3rem 4rem;
-  overflow-x: hidden; /* Prevents horizontal scroll bugs */
+  flex: 1;
+  padding: 3rem 3.5rem;
+  overflow-x: hidden;
+  max-width: 1200px;
+}
+
+/* ============================================================
+   PAGE HEADERS
+   ============================================================ */
+
+.welcome-card h1,
+.title h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  line-height: 1.2;
 }
 
 .welcome-card h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: 2.4rem;
 }
 
-/* --- Dashboard Grid Items --- */
+/* ============================================================
+   STATISTIC / SUMMARY CARDS
+   ============================================================ */
+
 .statistic-card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
 }
 
 .statistic-card > div {
   background: var(--card-white);
-  padding: 2.5rem;
-  border-radius: 24px;
+  padding: 1.75rem 2rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-soft);
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: 600;
+  font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.statistic-card > div::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-green);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.statistic-card > div:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.statistic-card > div:hover::before {
+  opacity: 1;
 }
 
 .statistic-card > div::after {
   content: "→";
   color: var(--accent-green);
+  font-size: 1.2rem;
+  font-weight: 700;
+  opacity: 0.7;
 }
 
-/* --- Filter & Tables --- */
-form {
+/* ============================================================
+   QUICK ACTIONS
+   ============================================================ */
+
+.quick-actions {
   display: flex;
   gap: 1rem;
-  align-items: flex-end;
   margin-bottom: 2.5rem;
+  flex-wrap: wrap;
 }
 
-.tables {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr; /* Asymmetric layout */
-  gap: 3rem;
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button,
+.btn {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.15s ease;
 }
+
+/* Primary action buttons (add, create) */
+.add-student,
+.add-faculty,
+.add-subject,
+.create-exam,
+.save-btn,
+.btn-main {
+  background: var(--text-dark);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+}
+
+.add-student:hover,
+.add-faculty:hover,
+.add-subject:hover,
+.create-exam:hover,
+.save-btn:hover,
+.btn-main:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Secondary / edit buttons */
+.edit-student,
+.edit-faculty,
+.edit-subject,
+.view-students,
+.subject-choose-result {
+  background: var(--bg-paper);
+  color: var(--text-dark);
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  font-size: 0.82rem;
+}
+
+.edit-student:hover,
+.edit-faculty:hover,
+.edit-subject:hover,
+.view-students:hover,
+.subject-choose-result:hover {
+  background: var(--accent-green-faint);
+  border-color: var(--accent-green-dark);
+  color: var(--accent-green-dark);
+}
+
+/* Delete / destructive buttons */
+.delete-btn,
+button[type="submit"].delete-btn {
+  background: transparent;
+  color: #c0392b;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #f5c6c2;
+  font-size: 0.82rem;
+}
+
+.delete-btn:hover {
+  background: #fdf3f2;
+  border-color: #c0392b;
+}
+
+/* Inline form delete buttons (table) */
+td form button[type="submit"] {
+  background: transparent;
+  color: #c0392b;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #f5c6c2;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+td form button[type="submit"]:hover {
+  background: #fdf3f2;
+  border-color: #c0392b;
+}
+
+/* ============================================================
+   TABLES (all tables shared)
+   ============================================================ */
 
 .exams-table,
-.results-table {
+.results-table,
+.exam-table,
+.result-table,
+.faculty-table,
+.add-student-table,
+.subject-table,
+.student-subject-table,
+.subject-result-table,
+.marks-table {
   background: var(--card-white);
-  padding: 2.5rem;
-  border-radius: 28px;
+  padding: 2rem;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 table {
@@ -178,22 +404,578 @@ table {
   border-collapse: collapse;
 }
 
-th {
-  text-align: left;
-  padding: 1rem;
-  color: var(--text-soft);
-  font-size: 0.8rem;
-  text-transform: uppercase;
+thead tr,
+tr:first-child {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-td {
-  padding: 1.5rem 1rem;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #f9f9f9;
+th {
+  text-align: left;
+  padding: 0.875rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
-tr:hover td {
-  background-color: #faf9f6;
-  color: var(--accent-green-dark);
+td {
+  padding: 1.1rem 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--bg-paper);
+  vertical-align: middle;
+  color: var(--text-dark);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background 0.12s ease;
+}
+
+tbody tr:hover td {
+  background-color: var(--bg-paper);
+}
+
+/* Mono font for codes, IDs, registration numbers */
+td:first-child[style*="font-weight"] {
+  font-family: "DM Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+}
+
+/* Status / tag styles */
+.faculty-tag {
+  display: inline-block;
+  background: var(--accent-green-faint);
+  color: #4a7c14;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.unassigned {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ============================================================
+   SPLIT TABLE LAYOUT (student dashboard)
+   ============================================================ */
+
+.tables {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.exams-table h3,
+.results-table h3,
+.exams-table > *:first-child,
+.results-table > *:first-child {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
+/* ============================================================
+   FORMS (general)
+   ============================================================ */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Filter bar forms (horizontal) */
+.main-content > form {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* ============================================================
+   CREATE / EDIT FORMS
+   ============================================================ */
+
+.create-user-container {
+  max-width: 560px;
+}
+
+.create-user-form,
+.create-exam-menu {
+  background: var(--card-white);
+  padding: 2.5rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-soft);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  background: var(--bg-paper);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--accent-green-dark);
+  background: var(--card-white);
+  box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.2);
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2366645f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Checkbox lists */
+.subject-checkbox-list {
+  background: var(--bg-paper) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-sm);
+  padding: 12px !important;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.subject-checkbox-list div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  font-size: 0.88rem;
+  color: var(--text-dark);
+  border-radius: 6px;
+  transition: background 0.1s ease;
+}
+
+.subject-checkbox-list div:hover {
+  background: var(--card-white);
+}
+
+.subject-checkbox-list input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent-green-dark);
+  cursor: pointer;
+}
+
+/* Radio buttons (exam type) */
+.menu-type {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.menu-type label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-paper);
+  transition: all 0.12s ease;
+}
+
+.menu-type label:has(input:checked) {
+  background: var(--accent-green-faint);
+  border-color: var(--accent-green-dark);
+  color: #4a7c14;
+}
+
+.menu-type input[type="radio"] {
+  accent-color: var(--accent-green-dark);
+}
+
+/* Checkbox rows in create exam */
+.menu-subject label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.menu-subject input[type="checkbox"] {
+  accent-color: var(--accent-green-dark);
+  width: 15px;
+  height: 15px;
+}
+
+/* Date input in create exam */
+.menu-date label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-soft);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.menu-date input[type="date"] {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  background: var(--bg-paper);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.menu-date input[type="date"]:focus {
+  border-color: var(--accent-green-dark);
+  box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.2);
+}
+
+.form-actions {
+  margin-top: 0.5rem;
+}
+
+.form-actions button[type="submit"],
+.form-actions button {
+  background: var(--text-dark);
+  color: #ffffff;
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  letter-spacing: 0.02em;
+}
+
+.form-actions button:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Assign faculty form (horizontal layout) */
+.main-content > form[action="/admin/faculty/assign"] {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--card-white);
+  padding: 1.75rem 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2.5rem;
+}
+
+.main-content > form[action="/admin/faculty/assign"] .form-group {
+  flex: 1;
+  min-width: 180px;
+  margin-bottom: 0;
+}
+
+.main-content > form[action="/admin/faculty/assign"] button[type="submit"] {
+  background: var(--text-dark);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.main-content > form[action="/admin/faculty/assign"] button:hover {
+  background: #2a2a2a;
+}
+
+/* ============================================================
+   MARKS INPUT (enter_marks page)
+   ============================================================ */
+
+.marks-table input[type="number"] {
+  font-family: "DM Mono", monospace;
+  font-size: 0.88rem;
+  color: var(--text-dark);
+  background: var(--bg-paper);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 7px 12px;
+  width: 90px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.marks-table input[type="number"]:focus {
+  border-color: var(--accent-green-dark);
+  box-shadow: 0 0 0 3px rgba(163, 230, 53, 0.2);
+  background: var(--card-white);
+}
+
+/* ============================================================
+   HR DIVIDERS
+   ============================================================ */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: 2.5rem 0;
+}
+
+/* ============================================================
+   HEADINGS (H2 used inline in pages)
+   ============================================================ */
+
+.main-content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  margin-bottom: 1.25rem;
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+
+body.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-paper);
+  min-height: 100vh;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+}
+
+.login-card {
+  background: var(--card-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  padding: 3rem 2.75rem;
+}
+
+.login-card header {
+  margin-bottom: 2.25rem;
+}
+
+.accent-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.login-card header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.login-card header p {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+}
+
+.login-card form {
+  gap: 0;
+}
+
+.login-card .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.login-card .btn-main {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.login-card footer {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.login-card footer span {
+  color: var(--text-dark);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 2rem 2rem;
+  }
+
+  .tables {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    position: relative;
+    padding: 1.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .logo {
+    margin-bottom: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .nav-links li {
+    margin: 0;
+  }
+
+  .nav-links li:last-child a {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 10px;
+  }
+
+  .student-info,
+  .faculty-info,
+  .admin-info {
+    display: none;
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .statistic-card {
+    grid-template-columns: 1fr 1fr;
+  }
 }
