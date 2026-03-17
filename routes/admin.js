@@ -527,7 +527,6 @@ router.get("/assign-faculty", async (req, res) => {
   }
 });
 
-//assign faculty
 router.post("/faculty/assign", async (req, res) => {
   try {
     const { subject_id, faculty_id } = req.body;
@@ -544,6 +543,19 @@ router.post("/faculty/assign", async (req, res) => {
   }
 });
 //change faculty
-//remove faculty
+router.post("/assign/remove/:subjectId", async (req, res) => {
+  try {
+    const subjectId = req.params.subjectId;
+
+    await db.query("UPDATE subjects SET faculty_id=NULL WHERE id = ?", [
+      subjectId,
+    ]);
+
+    res.redirect("/admin/assign-faculty");
+  } catch (err) {
+    console.error(err);
+    res.send("Database Error");
+  }
+});
 
 module.exports = router;
