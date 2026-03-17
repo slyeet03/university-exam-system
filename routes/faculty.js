@@ -14,6 +14,17 @@ router.get("/", (req, res) => {
   res.redirect("/faculty/dashboard");
 });
 
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.send("Error logging out");
+    }
+
+    res.redirect("/");
+  });
+});
+
 router.get("/dashboard", async (req, res) => {
   try {
     const facultyId = req.session.user.id;

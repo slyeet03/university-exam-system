@@ -14,6 +14,17 @@ router.get("/", (req, res) => {
   res.redirect("/student/dashboard");
 });
 
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.send("Error logging out");
+    }
+
+    res.redirect("/");
+  });
+});
+
 //dashboard
 router.get("/dashboard", async (req, res) => {
   try {
