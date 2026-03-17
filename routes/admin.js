@@ -542,7 +542,7 @@ router.post("/faculty/assign", async (req, res) => {
     res.send("Database Error");
   }
 });
-//change faculty
+
 router.post("/assign/remove/:subjectId", async (req, res) => {
   try {
     const subjectId = req.params.subjectId;
