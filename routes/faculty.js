@@ -160,7 +160,7 @@ router.post("/exams/create/submit", async (req, res) => {
     if (Array.isArray(selectedSubjects)) {
       for (let subId of selectedSubjects) {
         await db.query(
-          "INSERT INTO exams (subject_id, exam_date, type) VALUES (?, ?, ?)",
+          "INSERT INTO exams (subject_id, exam_date, exam_type) VALUES (?, ?, ?)",
           [subId, examDate, examType],
         );
       }
