@@ -66,6 +66,13 @@ university-exam-system/
 - `exams` — id, subject_id, exam_date, exam_type
 - `results` — id, exam_id, student_id, marks, grade
 
+## Mock Login Credentials
+admin: admin@university.ac.in
+student: priya.patel@student.ac.in
+faculty: vikram.nair@university.ac.in
+
+password for all: 1234
+
 ## Setup
 
 ### Prerequisites
