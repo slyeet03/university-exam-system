@@ -67,11 +67,12 @@ university-exam-system/
 - `results` — id, exam_id, student_id, marks, grade
 
 ## Mock Login Credentials
-admin: admin@university.ac.in
-student: priya.patel@student.ac.in
-faculty: vikram.nair@university.ac.in
 
-password for all: 1234
+- admin: admin@university.ac.in
+- student: priya.patel@student.ac.in
+- faculty: vikram.nair@university.ac.in
+
+- password for all: 1234
 
 ## Setup
 
