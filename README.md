@@ -2,6 +2,18 @@
 
 A web-based university examination management system built with Node.js, Express, and MySQL. Developed as a project for an RDBMS class.
 
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/thumb.png" width="45%" />
+  <img src="screenshots/1.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="screenshots/2.png" width="45%" />
+  <img src="screenshots/3.png" width="45%" />
+</p>
+
 ## Overview
 
 This system supports three user roles: admin, faculty, and student each with their own dashboard and set of features. Admins manage users and subjects, faculty create exams and enter marks, and students view their enrolled subjects, upcoming exams, and results.
